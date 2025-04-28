@@ -4,6 +4,7 @@ interface greetingProps{
     width:string
     height:string
     fontSize:string
+   
 }
 
 export const Greeting:FC<greetingProps> = ({width,height,fontSize}) =>{
@@ -22,6 +23,15 @@ export const Greeting:FC<greetingProps> = ({width,height,fontSize}) =>{
         }
     }
 
+    const ClearB = () =>{
+        setUsers([])
+    }
+
+    const deleteEl = (el:string) => {
+        setUsers(users.filter(user=>user!==el))
+        
+    }
+    
     return(
        <div style={{display:'flex',justifyContent:'space-between',gap:'30px'}}>
          <h3>Список задач:</h3>
@@ -29,6 +39,7 @@ export const Greeting:FC<greetingProps> = ({width,height,fontSize}) =>{
            {users.map((user,index)=>(
             <li key={index}>
                 {user}
+                <button onClick={()=>deleteEl(user)}>удалить</button>
             </li>
            ))}
          </ol>
@@ -36,6 +47,7 @@ export const Greeting:FC<greetingProps> = ({width,height,fontSize}) =>{
          <input type="text" value={addUser} onChange={changeInput} placeholder="какая задача?" />
 
          <button onClick={AddB}>Добавить новую задачу +</button>
+         <button onClick={ClearB}>Очистить список -</button>
        </div>
     )
 }
