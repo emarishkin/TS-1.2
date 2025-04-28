@@ -9,7 +9,10 @@ interface greetingProps{
 
 export const Greeting:FC<greetingProps> = ({width,height,fontSize}) =>{
 
-    const [users,setUsers] = useState<string[]>(['Почистить зубы','Помыть попу'])
+    const [users,setUsers] = useState<{id:number,user:string}[]>([
+        {id:1,user:'Егор'},
+        {id:2,user:'ИГорь'}
+    ])
     const [addUser,setAddUser] = useState<string>('')
     
     const changeInput = (e:ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +21,7 @@ export const Greeting:FC<greetingProps> = ({width,height,fontSize}) =>{
     
     const AddB = () =>{
         if(addUser!==''){
-            setUsers([...users,addUser])
+            setUsers([...users,{id:Date.now(),user:addUser}])
             setAddUser('')
         }
     }
@@ -27,8 +30,8 @@ export const Greeting:FC<greetingProps> = ({width,height,fontSize}) =>{
         setUsers([])
     }
 
-    const deleteEl = (el:string) => {
-        setUsers(users.filter(user=>user!==el))
+    const deleteEl = (el:number) => {
+        setUsers(users.filter(user=>user.id!==el))
         
     }
     
@@ -36,10 +39,10 @@ export const Greeting:FC<greetingProps> = ({width,height,fontSize}) =>{
        <div style={{display:'flex',justifyContent:'space-between',gap:'30px'}}>
          <h3>Список задач:</h3>
          <ol style={{width,height,fontSize}}>
-           {users.map((user,index)=>(
-            <li key={index}>
-                {user}
-                <button onClick={()=>deleteEl(user)}>удалить</button>
+           {users.map((userObj)=>(
+            <li >
+                {userObj.user}
+                <button onClick={()=>deleteEl(userObj.id)}>удалить</button>
             </li>
            ))}
          </ol>
